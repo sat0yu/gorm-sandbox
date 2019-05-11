@@ -1,0 +1,25 @@
+version: '3.0'
+services:
+  gorm-sandbox:
+    container_name: gorm-sandbox
+    command: ["tail","-f","/dev/null"]
+    build:
+      context: .
+      args:
+        GO_VERSION: 1.11
+    working_dir: /app
+    volumes:
+      - .:/app:cached
+      - go-path:/go
+    tty: true
+    stdin_open: true
+
+  database:
+    container_name: gorm-sandbox-postgres
+    image: postgres:10.6-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  go-path:
+  postgres-data:
